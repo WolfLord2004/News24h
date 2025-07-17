@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DANH MỤC BÀI BÁO</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .category-table {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .category-table th, 
+        .category-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .category-table th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 500;
+        }
+
+        .category-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .category-table a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .category-table a:hover {
+            text-decoration: underline;
+        }
+
+        .button-back {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .button-back:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="button-back">← Quay lại trang chủ</a>
+        <h1>DANH MỤC TRANG TÌM KIẾM</h1>
+        <table class="category-table">
+            <tr>
+                <th>ID</th>
+                <th>Tên trang báo</th>
+                <th>Link trang chủ bài báo</th>
+            </tr>
+            {% for cat in data %}
+            <tr>
+                <td>{{cat.id}}</td>
+                <td>{{cat.subject}}</td>
+                <td><a href="{{cat.url}}" target="_blank">{{cat.url}}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
