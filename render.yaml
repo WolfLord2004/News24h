@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: news24h-flask
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python api.py
+    plan: free
+    envVars:
+      - key: FLASK_ENV
+        value: production

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Tin Tức</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: left;
+            margin-bottom: 30px;
+            margin-left: 30px;
+            font-size: 2.5em;
+        }
+
+        .search-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 120px);
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button, input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover, input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 15px;
+        }
+
+        .news-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .news-summary {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .search-results {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .search-results h2 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .search-results p {
+            color: #666;
+            margin: 10px 0 0 0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            padding: 20px 0;
+        }
+
+        .pagination a {
+            padding: 8px 16px;
+            background: #2a2a2a;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .pagination a:hover {
+            background: #3a3a3a;
+        }
+
+        .pagination .active {
+            background: #3498db;
+        }
+
+        .pagination .disabled {
+            background: #1a1a1a;
+            color: #666;
+            pointer-events: none;
+        }
+
+        .pagination .ellipsis {
+            color: #666;
+            padding: 8px 16px;
+        }
+
+        @media (max-width: 768px) {
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button, input[type="submit"] {
+                width: 100%;
+            }
+
+            .form-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            input[type="text"] {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+
+        .footer {
+            background: #fff;
+            margin-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 15px;
+            color: #444;
+        }
+        .footer-top {
+            padding: 24px 0 0 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px 32px;
+            justify-content: center;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        .footer-links a {
+            color: #444;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #1976d2;
+            text-decoration: underline;
+        }
+        .footer-mid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            gap: 16px;
+        }
+        .footer-logo img {
+            height: 40px;
+        }
+        .footer-nav {
+            display: flex;
+            gap: 18px;
+        }
+        .footer-nav a {
+            color: #444;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .footer-nav a:hover {
+            color: #1976d2;
+        }
+        .footer-social a {
+            color: #1976d2;
+            font-size: 1.3em;
+            margin-left: 12px;
+            transition: color 0.2s;
+        }
+        .footer-social a:hover {
+            color: #0d47a1;
+        }
+        .footer-bottom {
+            padding: 18px 0 18px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .footer-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            width: 100%;
+            justify-content: space-between;
+        }
+        .footer-info div {
+            min-width: 220px;
+            max-width: 320px;
+        }
+        .footer-info a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 900px) {
+            .footer-mid, .footer-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BÁO News24h</h1>
+        
+        <div class="search-section">
+            <form action="/" method="GET">
+                <div class="form-group">
+                    <label>Tìm kiếm bài báo</label>
+                    <input type="text" name="keywords" placeholder="Nhập từ khóa tìm kiếm..." value="{{ keywords or '' }}">
+                    <input type="submit" value="Tìm kiếm">
+                </div>
+            </form>
+        </div>
+
+        {% if keywords %}
+        <div class="search-results">
+            <h2>Kết quả tìm kiếm cho: "{{ keywords }}"</h2>
+            {% if news_data|length == 0 %}
+                <p>Không tìm thấy bài báo nào phù hợp.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="button-group">
+            <button onclick="window.location.href='/category'">Danh mục bài báo</button>
+            <button onclick="window.location.href='/news'">Danh sách bài báo</button>
+            <button onclick="crawlData()">Cập nhật dữ liệu</button>
+        </div>
+
+        <div class="news-grid">
+            {% if news_data %}
+                {% for item in news_data %}
+                <div class="news-card">
+                    <img src="{{ item.hinhanh }}" alt="{{ item.tieude }}" class="news-image" onerror="this.src='https://via.placeholder.com/300x200'" referrerpolicy="no-referrer">
+                    <div class="news-content">
+                        <h3 class="news-title">{{ item.tieude }}</h3>
+                        <p class="news-summary">{{ item.noidung[:200] }}...</p>
+                        <a href="{{ url_for('news_detail', news_id=item.id) }}">
+                            <button>Đọc thêm</button>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>Không có bài báo nào.</p>
+            {% endif %}
+        </div>
+
+        <div class="pagination">
+            {% if current_page > 1 %}
+                <a href="{{ url_for('render', page=current_page-1, keywords=keywords) }}">&laquo; Previous</a>
+            {% else %}
+                <a class="disabled">&laquo; Previous</a>
+            {% endif %}
+            
+            {% for p in range(1, total_pages + 1) if (p == 1 or p == total_pages or (p >= current_page - 2 and p <= current_page + 2)) %}
+                {% if loop.previtem and loop.previtem != p - 1 %}
+                    <span class="ellipsis">...</span>
+                {% endif %}
+                <a href="{{ url_for('render', page=p, keywords=keywords) }}" 
+                   {% if p == current_page %}class="active"{% endif %}>
+                    {{ p }}
+                </a>
+            {% endfor %}
+            
+            {% if current_page < total_pages %}
+                <a href="{{ url_for('render', page=current_page+1, keywords=keywords) }}">Next &raquo;</a>
+            {% else %}
+                <a class="disabled">Next &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function crawlData() {
+            // Open popup window
+            const popup = window.open('/crawl', 'CrawlResults', 
+                'width=600,height=600,scrollbars=yes');
+            
+            // Focus on the popup
+            if (popup) {
+                popup.focus();
+            } else {
+                alert('Vui lòng cho phép hiển thị popup để xem kết quả crawl');
+            }
+        }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-links">
+                <a href="#">Chính trị</a>
+                <a href="#">Thời sự</a>
+                <a href="#">Thế giới</a>
+                <a href="#">Kinh tế</a>
+                <a href="#">Đời sống</a>
+                <a href="#">Sức khoẻ</a>
+                <a href="#">Giới trẻ</a>
+                <a href="#">Giáo dục</a>
+                <a href="#">Du lịch</a>
+                <a href="#">Văn hoá</a>
+                <a href="#">Giải trí</a>
+                <a href="#">Thể thao</a>
+                <a href="#">Công nghệ</a>
+                <a href="#">Xe</a>
+                <a href="#">Thời trang trẻ</a>
+                <a href="#">Video</a>
+                <a href="#">Podcast</a>
+                <a href="#">Bạn đọc</a>
+                <a href="#">Rao vặt</a>
+            </div>
+        </div>
+        <div class="footer-mid">
+            <div class="footer-logo">
+                <img src="https://i.postimg.cc/sXSzTkBM/Logo.jpg" alt="Logo" style="height:100px;">
+            </div>
+            <div class="footer-nav">
+                <a href="#">Đặt báo</a>
+                <a href="#">Quảng cáo</a>
+                <a href="#">RSS</a>
+                <a href="#">Tòa soạn</a>
+                <a href="#">Chính sách bảo mật</a>
+            </div>
+            <div class="footer-social">
+                <a href="https://www.facebook.com/nguyen.tinh.892661/" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.youtube.com/@wolflord2436" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="#" title="Zalo"><i class="fa-solid fa-comment"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-info">
+                <div>
+                    <strong>Hotline:</strong> <a href="tel:0867074946">0867 074 946</a><br>
+                    <strong>Liên hệ quảng cáo:</strong> <a href="tel:0867074946">0867 074 946</a>
+                </div>
+                <div>
+                    <strong>Tổng biên tập:</strong> Nguyễn Trung Tính<br>
+                    <strong>Phó tổng biên tập:</strong> Nguyễn Trung Hải<br>
+                    <strong>Phó tổng biên tập:</strong> Lê Nhật Nhân<br>
+                    <strong>Biên tập:</strong> Nguyễn Ngô Vũ Hoàng Gia<br>
+                    <strong>Tổng thư ký tòa soạn:</strong> Hồ Ngọc Quang
+                </div>
+                <div>
+                    Giấy phép xuất bản số 110/GP - BTTTT cấp ngày 24.3.2020<br>
+                    © 2003-2025 Bản quyền thuộc về Báo News24h.<br>
+                    <img src="https://i.postimg.cc/ht5qcDTJ/Chung-Nhan.png" alt="Chứng nhận" style="height:70px;margin-top:8px;">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .footer {
+            background: #fff;
+            margin-top: 40px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 15px;
+            color: #444;
+        }
+        .footer-top {
+            padding: 24px 0 0 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px 32px;
+            justify-content: center;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+        .footer-links a {
+            color: #444;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: #1976d2;
+            text-decoration: underline;
+        }
+        .footer-mid {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 0 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            gap: 16px;
+            margin-right: 100px;
+        }
+        .footer-logo img {
+            margin-left: 100px;
+            height: 40px; 
+        }
+        .footer-nav {
+            display: flex;
+            gap: 18px;
+        }
+        .footer-nav a {
+            color: #444;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .footer-nav a:hover {
+            color: #1976d2;
+        }
+        .footer-social a {
+            color: #1976d2;
+            font-size: 1.3em;
+            margin-left: 12px;
+            transition: color 0.2s;
+        }
+        .footer-social a {
+            font-size: 20px;        
+            margin-right: 50px;     
+            color: inherit;         
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: #0d47a1;
+        }
+        .footer-bottom {
+            padding: 18px 0 18px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 24px;
+        }
+        .footer-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            width: 100%;
+            justify-content: space-between;
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+        .footer-info div {
+            min-width: 220px;
+            max-width: 320px;
+        }
+        .footer-info a {
+            color: #1976d2;
+            text-decoration: none;
+
+        }
+        .footer-info a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 900px) {
+            .footer-mid, .footer-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+        }
+    </style>
+</body>
+</html>
